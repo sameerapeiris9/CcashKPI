@@ -9,86 +9,99 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f4f6f9;--card:#fff;--bdr:#e2e8f0;--surf:#f1f5f9;
-  --t1:#0f172a;--t2:#475569;--t3:#94a3b8;--t4:#cbd5e1;
-  --up:#16a34a;--up-bg:#dcfce7;
-  --dn:#dc2626;--dn-bg:#fee2e2;
-  --neu:#64748b;--neu-bg:#f1f5f9;--neu-bdr:#cbd5e1;
+  --bg:#f4f6f9;
+  --card:#fff;
+  --bdr:#e2e8f0;
+  --surf:#f1f5f9;
+  --t1:#0f172a;
+  --t2:#475569;
+  --t3:#94a3b8;
+  --t4:#cbd5e1;
+  --up:#16a34a;   --up-bg:#dcfce7;  --up-dk:#15803d;
+  --dn:#dc2626;   --dn-bg:#fee2e2;  --dn-dk:#b91c1c;
+  --neu:#64748b;  --neu-bg:#f1f5f9;
 }
 html,body{
-  width:100%;height:100%;background:var(--bg);
+  width:100%;height:100%;
+  background:var(--bg);
   font-family:'Inter',-apple-system,sans-serif;
   display:flex;align-items:center;justify-content:center;
-  overflow:hidden;-webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
 }
 #app{width:calc(100% - 14px);max-width:260px;}
 
-/* placeholder */
-#ph{
-  background:var(--card);border-radius:14px;border:0.5px solid var(--bdr);
-  padding:24px 16px;text-align:center;
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.06);
-}
-#ph strong{font-size:11px;font-weight:600;color:var(--t2);}
-#ph p{font-size:10px;color:var(--t3);line-height:1.7;}
-.chip{
-  display:flex;align-items:center;gap:6px;width:100%;
-  background:var(--surf);border:0.5px solid var(--bdr);
-  border-radius:7px;padding:5px 9px;
-  font-size:9.5px;font-weight:500;color:var(--t3);
-}
-.cdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.ctag{margin-left:auto;font-size:8px;font-weight:600;background:var(--bdr);color:var(--t3);padding:1px 5px;border-radius:4px;}
-
-/* card */
+/* ── CARD — always visible, no display toggling ── */
 #card{
-  display:none;background:var(--card);
-  border-radius:14px;border:0.5px solid var(--bdr);
-  overflow:hidden;position:relative;
-  box-shadow:0 1px 2px rgba(15,23,42,.04),0 4px 12px rgba(15,23,42,.07),0 14px 36px rgba(15,23,42,.05);
-  animation:rise .26s cubic-bezier(.22,.68,0,1.1) both;
+  background:var(--card);
+  border-radius:14px;
+  border:0.5px solid var(--bdr);
+  overflow:hidden;
+  position:relative;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,.04),
+    0 4px 12px rgba(15,23,42,.07),
+    0 14px 36px rgba(15,23,42,.05);
 }
-@keyframes rise{from{opacity:0;transform:translateY(6px) scale(.982)}to{opacity:1;transform:none}}
-#stripe{height:3px;width:100%;}
+
+/* top accent stripe */
+#stripe{
+  height:3px;
+  width:100%;
+  background:var(--neu-bg);
+}
+
 .body{padding:13px 15px 12px;}
-#lbl{font-size:8.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--t3);margin-bottom:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:13px;}
+
+/* label */
+#lbl{
+  font-size:9px;font-weight:600;
+  letter-spacing:.11em;text-transform:uppercase;
+  color:var(--t3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom:9px;min-height:12px;
+}
+
+/* hero */
 .hero{display:flex;align-items:baseline;gap:5px;margin-bottom:3px;}
-#hnum{font-size:34px;font-weight:600;color:var(--t1);letter-spacing:-0.035em;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap;}
+#hnum{
+  font-size:34px;font-weight:600;color:var(--t1);
+  letter-spacing:-0.035em;line-height:1;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
 .hunit{font-size:12px;font-weight:400;color:var(--t4);letter-spacing:.05em;}
+
+/* divider */
 .divl{height:0.5px;background:var(--surf);margin:10px 0;}
+
+/* variance row */
 .vrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
 .vleft{display:flex;align-items:center;gap:5px;}
-#ibox{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-#vnum{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;}
+#ibox{
+  width:24px;height:24px;border-radius:7px;
+  background:var(--neu-bg);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+#vnum{
+  font-size:12.5px;font-weight:600;
+  color:var(--neu);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
 .vunit{font-size:10px;font-weight:400;opacity:.6;margin-left:1px;}
 #vslbl{font-size:9px;color:var(--t4);}
+
+/* mini bar */
 .btrack{height:3px;background:var(--surf);border-radius:99px;overflow:hidden;margin-bottom:5px;}
-#bfill{height:100%;border-radius:99px;transition:width .55s cubic-bezier(.22,.68,0,1);}
+#bfill{height:100%;border-radius:99px;background:var(--neu-bg);width:0%;transition:width .55s cubic-bezier(.22,.68,0,1);}
 .bfoot{display:flex;justify-content:space-between;font-size:8px;color:var(--t4);}
 </style>
 </head>
 <body>
 <div id="app">
-
-  <div id="ph">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="opacity:.2;color:#94a3b8">
-      <rect x="2" y="2" width="28" height="28" rx="7" stroke="currentColor" stroke-width="1.4"/>
-      <path d="M7 22 L11 14 L17 18 L25 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="25" cy="8" r="2" fill="currentColor"/>
-    </svg>
-    <strong>Treasury KPI Card</strong>
-    <p>Drop measures on the Marks card tiles</p>
-    <div style="display:flex;flex-direction:column;gap:4px;width:100%;margin-top:2px">
-      <div class="chip"><div class="cdot" style="background:#16a34a"></div>Actual Value<span class="ctag">required</span></div>
-      <div class="chip"><div class="cdot" style="background:#3b82f6"></div>Delta (vs Yesterday)<span class="ctag">optional</span></div>
-    </div>
-  </div>
-
   <div id="card">
     <div id="stripe"></div>
     <div class="body">
-      <div id="lbl"></div>
+      <div id="lbl">Loading…</div>
       <div class="hero">
         <span id="hnum">—</span>
         <span class="hunit">Bn</span>
@@ -96,174 +109,152 @@ html,body{
       <div class="divl"></div>
       <div class="vrow">
         <div class="vleft">
-          <div id="ibox"><svg id="isvg" width="11" height="11" viewBox="0 0 11 11" fill="none"></svg></div>
+          <div id="ibox">
+            <svg id="isvg" width="11" height="11" viewBox="0 0 11 11" fill="none"></svg>
+          </div>
           <span id="vnum">—</span>
         </div>
         <span id="vslbl">vs yesterday</span>
       </div>
       <div class="btrack"><div id="bfill"></div></div>
-      <div class="bfoot"><span id="bleft">—</span><span id="bright">—</span></div>
+      <div class="bfoot">
+        <span id="bleft">—</span>
+        <span id="bright">—</span>
+      </div>
     </div>
   </div>
-
 </div>
+
 <script>
 'use strict';
-(function () {
+(function(){
 
-  /* ── helpers ── */
-  function $(id) { return document.getElementById(id); }
+  var $ = function(id){ return document.getElementById(id); };
 
-  function toBn(n) {
-    if (n === null || isNaN(n)) return '—';
-    var abs = Math.abs(n), s = n < 0 ? '-' : '';
-    return s + (abs >= 1e6 ? (abs / 1e9) : abs).toFixed(2);
+  /* ── number helpers ── */
+  function toBn(n){
+    if(n===null||isNaN(n)) return '—';
+    var abs=Math.abs(n), s=n<0?'-':'';
+    return s+(abs>=1e6?abs/1e9:abs).toFixed(2);
   }
-  function signBn(n) {
-    if (n === null || isNaN(n)) return null;
-    var abs = Math.abs(n), s = n >= 0 ? '+' : '-';
-    return s + (abs >= 1e6 ? (abs / 1e9) : abs).toFixed(2);
+  function signBn(n){
+    if(n===null||isNaN(n)) return null;
+    var abs=Math.abs(n), s=n>=0?'+':'-';
+    return s+(abs>=1e6?abs/1e9:abs).toFixed(2);
   }
-  function pctOf(d, a) {
-    if (!a || !d) return null;
-    var prev = a - d;
-    return prev === 0 ? null : (d / Math.abs(prev)) * 100;
+  function pctOf(d,a){
+    if(!a||!d||a===0) return null;
+    var prev=a-d;
+    return prev===0?null:(d/Math.abs(prev))*100;
   }
-  function pretty(name) {
-    return name.replace(/^(SUM|AVG|MIN|MAX|COUNT|ATTR)\((.+)\)$/i, '$2')
-               .replace(/[_-]/g, ' ')
-               .replace(/\b\w/g, function (c) { return c.toUpperCase(); }).trim();
-  }
-
-  /* ── theme ── */
-  function theme(dir) {
-    var C = {
-      up:  { s:'#16a34a', ib:'#dcfce7', vc:'#16a34a', bc:'#16a34a',
-             svg:'<polyline points="1.5,9 5.5,1.5 9.5,9" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
-      down:{ s:'#dc2626', ib:'#fee2e2', vc:'#dc2626', bc:'#dc2626',
-             svg:'<polyline points="1.5,1.5 5.5,9 9.5,1.5" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
-      neu: { s:'#cbd5e1', ib:'#f1f5f9', vc:'#64748b', bc:'#cbd5e1',
-             svg:'<line x1="1.5" y1="5.5" x2="9.5" y2="5.5" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>' }
-    }[dir] || {};
-    $('stripe').style.background = C.s;
-    $('ibox').style.background   = C.ib;
-    $('isvg').innerHTML          = C.svg;
-    $('vnum').style.color        = C.vc;
-    $('bfill').style.background  = C.bc;
+  function pretty(name){
+    return name
+      .replace(/^(SUM|AVG|MIN|MAX|COUNT|ATTR)\((.+)\)$/i,'$2')
+      .replace(/[_-]/g,' ')
+      .replace(/\b\w/g,function(c){return c.toUpperCase();})
+      .trim();
   }
 
-  /* ── EXACT Neon Donut data pattern ── */
-  function getSummaryData(ws) {
-    var rows = [];
-    return ws.getSummaryDataReaderAsync(undefined, { ignoreSelection: true })
-      .then(function (reader) {
-        var chain = Promise.resolve();
-        for (var i = 0; i < reader.pageCount; i++) {
-          (function (pageNum) {
-            chain = chain.then(function () {
-              return reader.getPageAsync(pageNum).then(function (page) {
-                page.data.forEach(function (r) {
-                  var row = {};
-                  page.columns.forEach(function (col, idx) {
-                    row[col.fieldName] = r[idx];
-                  });
-                  rows.push(row);
-                });
-              });
-            });
-          })(i);
-        }
-        return chain.then(function () {
-          return reader.releaseAsync().then(function () { return rows; });
-        });
+  /* ── theme: only colours, no show/hide ── */
+  function applyTheme(dir){
+    var T={
+      up:  {s:'#16a34a',ib:'#dcfce7',vc:'#16a34a',bc:'#16a34a',
+            svg:'<polyline points="1.5,9 5.5,1.5 9.5,9" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'},
+      down:{s:'#dc2626',ib:'#fee2e2',vc:'#dc2626',bc:'#dc2626',
+            svg:'<polyline points="1.5,1.5 5.5,9 9.5,1.5" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'},
+      neu: {s:'#cbd5e1',ib:'#f1f5f9',vc:'#64748b',bc:'#cbd5e1',
+            svg:'<line x1="1.5" y1="5.5" x2="9.5" y2="5.5" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>'}
+    }[dir]||{};
+    if(!T.s) return;
+    $('stripe').style.background = T.s;
+    $('ibox').style.background   = T.ib;
+    $('isvg').innerHTML          = T.svg;
+    $('vnum').style.color        = T.vc;
+    $('bfill').style.background  = T.bc;
+  }
+
+  /* ── EXACT getData from working doc-7 KPI card ── */
+  async function getData(ws){
+    var rows=[], reader=await ws.getSummaryDataReaderAsync(undefined,{ignoreSelection:true});
+    for(var i=0;i<reader.pageCount;i++){
+      var pg=await reader.getPageAsync(i);
+      pg.data.forEach(function(r){
+        var row={};
+        pg.columns.forEach(function(c,idx){ row[c.fieldName]=r[idx]; });
+        rows.push(row);
       });
+    }
+    await reader.releaseAsync();
+    return rows;
   }
 
-  /* ── EXACT Neon Donut encoding pattern ── */
-  function getEncodings(ws) {
-    return ws.getVisualSpecificationAsync().then(function (spec) {
-      var map = {};
-      if (spec.activeMarksSpecificationIndex < 0) return map;
-      var marks = spec.marksSpecifications[spec.activeMarksSpecificationIndex];
-      marks.encodings.forEach(function (e) { map[e.id] = e.field; });
-      return map;
-    });
+  /* ── EXACT getEnc from working doc-7 KPI card ── */
+  async function getEnc(ws){
+    var spec=await ws.getVisualSpecificationAsync(), map={};
+    if(spec.activeMarksSpecificationIndex<0) return map;
+    var marks=spec.marksSpecifications[spec.activeMarksSpecificationIndex];
+    marks.encodings.forEach(function(e){ map[e.id]=e.field; });
+    return map;
   }
 
-  /* ── render ── */
-  function render(data, encodings) {
-    /* guard: need actual field and data */
-    if (!encodings.actual || !data.length) {
-      $('ph').style.display  = '';
-      $('card').style.display = 'none';
-      return;
+  /* ── render — no show/hide, just populate ── */
+  function render(data, enc){
+    /* need actual encoding and at least one row — same guard as doc-7 */
+    if(!enc.actual||!data.length) return;
+
+    var row=data[0];
+
+    /* EXACT same dv/num pattern as doc-7 */
+    function dv(id){ return enc[id]?row[enc[id].name]||null:null; }
+    function num(id){
+      var d=dv(id); if(!d) return null;
+      var n=parseFloat(d.nativeValue!==undefined?d.nativeValue:d.value);
+      return isNaN(n)?null:n;
     }
 
-    /* read values using confirmed field name pattern */
-    function val(encId) {
-      if (!encodings[encId]) return null;
-      var dv = data[0][encodings[encId].name];
-      if (!dv) return null;
-      var n = parseFloat(dv.nativeValue !== undefined ? dv.nativeValue : dv.value);
-      return isNaN(n) ? null : n;
-    }
+    var actualN = num('actual');
+    var deltaN  = num('delta');
 
-    var actualN = val('actual');
-    var deltaN  = val('delta');
-
-    if (actualN === null) {
-      $('ph').style.display  = '';
-      $('card').style.display = 'none';
-      return;
-    }
-
-    /* show card */
-    $('ph').style.display   = 'none';
-    $('card').style.display = '';
+    if(actualN===null) return;
 
     /* label from field name */
-    $('lbl').textContent = pretty(encodings.actual.name);
+    $('lbl').textContent = pretty(enc.actual.name);
 
     /* hero */
     $('hnum').textContent = toBn(actualN);
 
-    /* direction */
-    var dir = deltaN === null ? 'neu' : deltaN > 0 ? 'up' : deltaN < 0 ? 'down' : 'neu';
-    theme(dir);
+    /* direction & theme */
+    var dir = deltaN===null?'neu':deltaN>0?'up':deltaN<0?'down':'neu';
+    applyTheme(dir);
 
     /* variance */
-    if (deltaN !== null) {
+    if(deltaN!==null){
       var sb  = signBn(deltaN);
-      var pct = pctOf(deltaN, actualN);
-      $('vnum').innerHTML = sb + '<span class="vunit">Bn</span>';
-      var bw = Math.min(100, Math.max(2, Math.round(Math.abs(deltaN / actualN) * 2000)));
-      $('bfill').style.width  = bw + '%';
-      $('bleft').textContent  = 'Δ ' + sb + ' Bn';
-      $('bright').textContent = pct !== null ? (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%' : '—';
+      var pct = pctOf(deltaN,actualN);
+      $('vnum').innerHTML = sb+'<span class="vunit">Bn</span>';
+      var bw = Math.min(100,Math.max(2,Math.round(Math.abs(deltaN/actualN)*2000)));
+      $('bfill').style.width  = bw+'%';
+      $('bleft').textContent  = 'Δ '+sb+' Bn';
+      $('bright').textContent = pct!==null?(pct>=0?'+':'')+pct.toFixed(2)+'%':'—';
     } else {
-      $('vnum').textContent   = 'No delta';
+      $('vnum').textContent   = 'Drop Delta field';
       $('bfill').style.width  = '0%';
-      $('bleft').textContent  = 'Drop Delta field';
+      $('bleft').textContent  = '—';
       $('bright').textContent = '—';
     }
   }
 
-  /* ── INIT — exact Neon Donut pattern ── */
-  window.onload = tableau.extensions.initializeAsync().then(function () {
-    var worksheet = tableau.extensions.worksheetContent.worksheet;
+  /* ── EXACT init pattern from doc-7 working KPI card ── */
+  window.onload = tableau.extensions.initializeAsync().then(function(){
+    var ws = tableau.extensions.worksheetContent.worksheet;
 
-    function update() {
-      Promise.all([
-        getSummaryData(worksheet),
-        getEncodings(worksheet)
-      ]).then(function (results) {
-        render(results[0], results[1]);
-      }).catch(function (err) {
-        console.error('KPI Card error:', err);
-      });
-    }
+    var update = async function(){
+      var data = await getData(ws);
+      var enc  = await getEnc(ws);
+      render(data, enc);
+    };
 
-    worksheet.addEventListener(tableau.TableauEventType.SummaryDataChanged, update);
+    ws.addEventListener(tableau.TableauEventType.SummaryDataChanged, update);
     update();
   });
 
