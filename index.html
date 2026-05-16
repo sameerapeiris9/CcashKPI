@@ -65,7 +65,7 @@ html,body{
 /* hero */
 .hero{display:flex;align-items:baseline;gap:5px;margin-bottom:3px;}
 #hnum{
-  font-size:34px;font-weight:600;color:var(--t1);
+  font-size:34px;font-weight:700;color:var(--t1);
   letter-spacing:-0.035em;line-height:1;
   font-variant-numeric:tabular-nums;white-space:nowrap;
 }
@@ -143,9 +143,11 @@ html,body{
     return s+(abs>=1e6?abs/1e9:abs).toFixed(2);
   }
   function pctOf(d,a){
+    /* delta as % of (actual - delta) = previous day value */
     if(!a||!d||a===0) return null;
     var prev=a-d;
-    return prev===0?null:(d/Math.abs(prev))*100;
+    if(prev===0||Math.abs(prev)<1) return null;
+    return (d/Math.abs(prev))*100;
   }
   function pretty(name){
     return name
@@ -197,6 +199,28 @@ html,body{
     return map;
   }
 
+  /* ── count-up animation ── */
+  function countUp(target){
+    var el=$('hnum');
+    var abs=Math.abs(target);
+    var isBn=abs>=1e6;
+    var end=isBn?abs/1e9:abs;
+    var sign=target<0?'-':'';
+    var duration=700, steps=40, step=0;
+    var start=parseFloat(el.textContent)||0;
+    /* if starting from — or same value, skip animation */
+    if(isNaN(start)||start===end){ el.textContent=sign+end.toFixed(2); return; }
+    clearInterval(el._timer);
+    el._timer=setInterval(function(){
+      step++;
+      var t=step/steps;
+      t=t<1?t*(2-t):1; /* ease out quad */
+      var cur=start+(end-start)*t;
+      el.textContent=sign+cur.toFixed(2);
+      if(step>=steps){ clearInterval(el._timer); el.textContent=sign+end.toFixed(2); }
+    },duration/steps);
+  }
+
   /* ── render — no show/hide, just populate ── */
   function render(data, enc){
     /* need actual encoding and at least one row — same guard as doc-7 */
@@ -220,8 +244,8 @@ html,body{
     /* label from field name */
     $('lbl').textContent = pretty(enc.actual.name);
 
-    /* hero */
-    $('hnum').textContent = toBn(actualN);
+    /* hero — count-up animation */
+    countUp(actualN);
 
     /* direction & theme */
     var dir = deltaN===null?'neu':deltaN>0?'up':deltaN<0?'down':'neu';
