@@ -8,461 +8,264 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --bg:     #f4f6f9;
-  --card:   #ffffff;
-  --bdr:    #e2e8f0;
-  --div:    #f1f5f9;
-  --t1:     #0f172a;
-  --t2:     #475569;
-  --t3:     #94a3b8;
-  --t4:     #cbd5e1;
-  --up:     #16a34a; --up-bg:#dcfce7; --up-dk:#15803d;
-  --dn:     #dc2626; --dn-bg:#fee2e2; --dn-dk:#b91c1c;
-  --neu:    #64748b; --neu-bg:#f1f5f9;
-  --r:      16px;
-  --font:   'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --bg:#f4f6f9;--card:#fff;--bdr:#e2e8f0;--surf:#f1f5f9;
+  --t1:#0f172a;--t2:#475569;--t3:#94a3b8;--t4:#cbd5e1;
+  --up:#16a34a;--up-bg:#dcfce7;
+  --dn:#dc2626;--dn-bg:#fee2e2;
+  --neu:#64748b;--neu-bg:#f1f5f9;--neu-bdr:#cbd5e1;
 }
-
 html,body{
-  width:100%;height:100%;
-  background:var(--bg);
-  font-family:var(--font);
+  width:100%;height:100%;background:var(--bg);
+  font-family:'Inter',-apple-system,sans-serif;
   display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  overflow:hidden;-webkit-font-smoothing:antialiased;
 }
+#app{width:calc(100% - 14px);max-width:260px;}
 
-#app{
-  width:calc(100% - 14px);
-  max-width:260px;
-}
-
-/* ════════════════════════════════════════
-   PLACEHOLDER
-════════════════════════════════════════ */
+/* placeholder */
 #ph{
-  background:var(--card);
-  border-radius:var(--r);
-  border:0.5px solid var(--bdr);
-  padding:26px 16px;
-  text-align:center;
+  background:var(--card);border-radius:14px;border:0.5px solid var(--bdr);
+  padding:24px 16px;text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:8px;
   box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.06);
 }
-#ph svg{opacity:.2;margin-bottom:2px;}
-#ph strong{font-size:11.5px;font-weight:600;color:var(--t2);}
+#ph strong{font-size:11px;font-weight:600;color:var(--t2);}
 #ph p{font-size:10px;color:var(--t3);line-height:1.7;}
 .chip{
   display:flex;align-items:center;gap:6px;width:100%;
-  background:var(--div);border:0.5px solid var(--bdr);
+  background:var(--surf);border:0.5px solid var(--bdr);
   border-radius:7px;padding:5px 9px;
   font-size:9.5px;font-weight:500;color:var(--t3);
 }
 .cdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.ctag{
-  margin-left:auto;font-size:8px;font-weight:600;
-  background:var(--bdr);color:var(--t3);
-  padding:1px 5px;border-radius:4px;
-}
+.ctag{margin-left:auto;font-size:8px;font-weight:600;background:var(--bdr);color:var(--t3);padding:1px 5px;border-radius:4px;}
 
-/* ════════════════════════════════════════
-   ERROR
-════════════════════════════════════════ */
-#err{
-  display:none;
-  background:#fff;border:0.5px solid #fca5a5;
-  border-radius:var(--r);padding:12px 14px;
-  font-size:10.5px;color:var(--dn);
-  line-height:1.65;word-break:break-word;
-}
-
-/* ════════════════════════════════════════
-   CARD
-════════════════════════════════════════ */
+/* card */
 #card{
-  display:none;
-  background:var(--card);
-  border-radius:var(--r);
-  border:0.5px solid var(--bdr);
-  overflow:hidden;
-  position:relative;
-  box-shadow:
-    0 1px 2px  rgba(15,23,42,.04),
-    0 4px 12px rgba(15,23,42,.07),
-    0 14px 36px rgba(15,23,42,.05);
+  display:none;background:var(--card);
+  border-radius:14px;border:0.5px solid var(--bdr);
+  overflow:hidden;position:relative;
+  box-shadow:0 1px 2px rgba(15,23,42,.04),0 4px 12px rgba(15,23,42,.07),0 14px 36px rgba(15,23,42,.05);
   animation:rise .26s cubic-bezier(.22,.68,0,1.1) both;
 }
-@keyframes rise{
-  from{opacity:0;transform:translateY(6px) scale(.982)}
-  to  {opacity:1;transform:none}
-}
-
-/* top accent stripe */
-#stripe{
-  height:3px;width:100%;
-  border-radius:16px 16px 0 0;
-  transition:background .22s ease;
-}
-
-/* card content */
+@keyframes rise{from{opacity:0;transform:translateY(6px) scale(.982)}to{opacity:1;transform:none}}
+#stripe{height:3px;width:100%;}
 .body{padding:13px 15px 12px;}
-
-/* ── LABEL SLOT ───────────────────────── */
-/* Fixed height — always present even if empty.
-   Text comes from: Tableau settings > prettified field name  */
-#lbl-slot{
-  height:15px;
-  font-size:8.5px;font-weight:600;
-  letter-spacing:.11em;text-transform:uppercase;
-  color:var(--t3);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  margin-bottom:9px;
-  /* inline editable on double-click */
-  cursor:default;
-  user-select:none;
-}
-#lbl-slot:empty::before{
-  content:attr(data-ph);
-  color:var(--div);
-}
-
-/* ── HERO ─────────────────────────────── */
-.hero{
-  display:flex;align-items:baseline;gap:5px;
-  margin-bottom:3px;
-}
-#hero-num{
-  font-size:34px;font-weight:600;color:var(--t1);
-  letter-spacing:-0.035em;line-height:1;
-  font-variant-numeric:tabular-nums;
-  white-space:nowrap;
-  transition:font-size .15s;
-}
-.hero-unit{
-  font-size:12px;font-weight:400;
-  color:var(--t4);letter-spacing:.05em;
-}
-
-/* ── DIVIDER ──────────────────────────── */
-.div{height:0.5px;background:var(--div);margin:10px 0;}
-
-/* ── VARIANCE ROW ─────────────────────── */
-.vrow{
-  display:flex;align-items:center;
-  justify-content:space-between;
-  margin-bottom:9px;
-}
+#lbl{font-size:8.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--t3);margin-bottom:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:13px;}
+.hero{display:flex;align-items:baseline;gap:5px;margin-bottom:3px;}
+#hnum{font-size:34px;font-weight:600;color:var(--t1);letter-spacing:-0.035em;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.hunit{font-size:12px;font-weight:400;color:var(--t4);letter-spacing:.05em;}
+.divl{height:0.5px;background:var(--surf);margin:10px 0;}
+.vrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
 .vleft{display:flex;align-items:center;gap:5px;}
-#ibox{
-  width:24px;height:24px;border-radius:7px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-  transition:background .22s;
-}
-#vnum{
-  font-size:12.5px;font-weight:600;
-  font-variant-numeric:tabular-nums;
-  white-space:nowrap;
-  transition:color .22s;
-}
+#ibox{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#vnum{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .vunit{font-size:10px;font-weight:400;opacity:.6;margin-left:1px;}
-#vs{font-size:9px;color:var(--t4);}
-
-/* ── MINI BAR ─────────────────────────── */
-.btrack{
-  height:3px;background:var(--div);
-  border-radius:99px;overflow:hidden;
-  margin-bottom:5px;
-}
-#bfill{
-  height:100%;border-radius:99px;
-  transition:width .55s cubic-bezier(.22,.68,0,1), background .22s;
-  width:0%;
-}
-.bfoot{
-  display:flex;justify-content:space-between;
-  font-size:8px;color:var(--t4);
-}
+#vslbl{font-size:9px;color:var(--t4);}
+.btrack{height:3px;background:var(--surf);border-radius:99px;overflow:hidden;margin-bottom:5px;}
+#bfill{height:100%;border-radius:99px;transition:width .55s cubic-bezier(.22,.68,0,1);}
+.bfoot{display:flex;justify-content:space-between;font-size:8px;color:var(--t4);}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ── PLACEHOLDER ── -->
   <div id="ph">
-    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" style="color:#94a3b8">
-      <rect x="2" y="2" width="30" height="30" rx="8" stroke="currentColor" stroke-width="1.4"/>
-      <path d="M8 23 L12 15 L18 19 L26 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="26" cy="9" r="2.2" fill="currentColor"/>
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="opacity:.2;color:#94a3b8">
+      <rect x="2" y="2" width="28" height="28" rx="7" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M7 22 L11 14 L17 18 L25 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="25" cy="8" r="2" fill="currentColor"/>
     </svg>
     <strong>Treasury KPI Card</strong>
-    <p>Drop your measures on the two Marks card tiles</p>
-    <div style="display:flex;flex-direction:column;gap:4px;width:100%;margin-top:3px">
-      <div class="chip">
-        <div class="cdot" style="background:#16a34a"></div>
-        Actual Value — any numeric field
-        <span class="ctag">required</span>
-      </div>
-      <div class="chip">
-        <div class="cdot" style="background:#3b82f6"></div>
-        Delta (vs Yesterday) — variance calc
-        <span class="ctag">optional</span>
-      </div>
+    <p>Drop measures on the Marks card tiles</p>
+    <div style="display:flex;flex-direction:column;gap:4px;width:100%;margin-top:2px">
+      <div class="chip"><div class="cdot" style="background:#16a34a"></div>Actual Value<span class="ctag">required</span></div>
+      <div class="chip"><div class="cdot" style="background:#3b82f6"></div>Delta (vs Yesterday)<span class="ctag">optional</span></div>
     </div>
   </div>
 
-  <!-- ── ERROR ── -->
-  <div id="err"></div>
-
-  <!-- ── CARD ── -->
   <div id="card">
     <div id="stripe"></div>
     <div class="body">
-
-      <!-- label slot: always rendered, populated from field name -->
-      <div id="lbl-slot" data-ph=""></div>
-
-      <!-- hero value -->
+      <div id="lbl"></div>
       <div class="hero">
-        <span id="hero-num">—</span>
-        <span class="hero-unit">Bn</span>
+        <span id="hnum">—</span>
+        <span class="hunit">Bn</span>
       </div>
-
-      <div class="div"></div>
-
-      <!-- variance -->
+      <div class="divl"></div>
       <div class="vrow">
         <div class="vleft">
-          <div id="ibox">
-            <svg id="isvg" width="11" height="11" viewBox="0 0 11 11" fill="none"></svg>
-          </div>
+          <div id="ibox"><svg id="isvg" width="11" height="11" viewBox="0 0 11 11" fill="none"></svg></div>
           <span id="vnum">—</span>
         </div>
-        <span id="vs">vs yesterday</span>
+        <span id="vslbl">vs yesterday</span>
       </div>
-
-      <!-- mini bar -->
       <div class="btrack"><div id="bfill"></div></div>
-      <div class="bfoot">
-        <span id="bleft">—</span>
-        <span id="bright">—</span>
-      </div>
-
+      <div class="bfoot"><span id="bleft">—</span><span id="bright">—</span></div>
     </div>
   </div>
 
 </div>
 <script>
 'use strict';
-(function(){
+(function () {
 
-  var $ = function(id){ return document.getElementById(id); };
-  var appEl = $('app');
+  /* ── helpers ── */
+  function $(id) { return document.getElementById(id); }
 
-  /* ─── STATES ───────────────────────────────── */
-  function showPh()  { $('ph').style.display=''; $('err').style.display='none'; $('card').style.display='none'; }
-  function showErr(m){ $('ph').style.display='none'; $('err').style.display=''; $('card').style.display='none'; $('err').textContent='Error: '+m; }
-  function showCard(){ $('ph').style.display='none'; $('err').style.display='none'; $('card').style.display=''; }
-
-  /* ─── Bn CONVERSION ────────────────────────────
-     Debug confirmed values are absolute (e.g. 1,265,261,528,184).
-     Heuristic: |n| >= 1e6 → divide by 1e9, else treat as already Bn. */
-  function toBn(n){
-    if(n===null||isNaN(n)) return '—';
+  function toBn(n) {
+    if (n === null || isNaN(n)) return '—';
     var abs = Math.abs(n), s = n < 0 ? '-' : '';
-    var bn  = abs >= 1e6 ? abs / 1e9 : abs;
-    return s + bn.toFixed(2);
+    return s + (abs >= 1e6 ? (abs / 1e9) : abs).toFixed(2);
   }
-  function signedBn(n){
-    if(n===null||isNaN(n)) return null;
+  function signBn(n) {
+    if (n === null || isNaN(n)) return null;
     var abs = Math.abs(n), s = n >= 0 ? '+' : '-';
-    var bn  = abs >= 1e6 ? abs / 1e9 : abs;
-    return s + bn.toFixed(2);
+    return s + (abs >= 1e6 ? (abs / 1e9) : abs).toFixed(2);
   }
-  function toPct(delta, actual){
-    if(actual === null || delta === null || actual === 0) return null;
-    var prev = actual - delta;
-    if(prev === 0) return null;
-    return (delta / Math.abs(prev)) * 100;
+  function pctOf(d, a) {
+    if (!a || !d) return null;
+    var prev = a - d;
+    return prev === 0 ? null : (d / Math.abs(prev)) * 100;
   }
-
-  /* ─── FIELD NAME CLEANUP ───────────────────── */
-  function pretty(name){
-    return name
-      .replace(/^(SUM|AVG|MIN|MAX|COUNT|ATTR)\((.+)\)$/i, '$2')
-      .replace(/[_-]/g, ' ')
-      .replace(/\b\w/g, function(c){ return c.toUpperCase(); })
-      .trim();
+  function pretty(name) {
+    return name.replace(/^(SUM|AVG|MIN|MAX|COUNT|ATTR)\((.+)\)$/i, '$2')
+               .replace(/[_-]/g, ' ')
+               .replace(/\b\w/g, function (c) { return c.toUpperCase(); }).trim();
   }
 
-  /* ─── THEME ────────────────────────────────── */
-  var THEMES = {
-    up: {
-      stripe:  '#16a34a',
-      ibg:     '#dcfce7',
-      vclr:    '#16a34a',
-      bar:     '#16a34a',
-      svg:     '<polyline points="1.5,9 5.5,1.5 9.5,9" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    },
-    down: {
-      stripe:  '#dc2626',
-      ibg:     '#fee2e2',
-      vclr:    '#dc2626',
-      bar:     '#dc2626',
-      svg:     '<polyline points="1.5,1.5 5.5,9 9.5,1.5" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    },
-    neu: {
-      stripe:  '#cbd5e1',
-      ibg:     '#f1f5f9',
-      vclr:    '#64748b',
-      bar:     '#cbd5e1',
-      svg:     '<line x1="1.5" y1="5.5" x2="9.5" y2="5.5" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>'
-    }
-  };
-
-  function applyTheme(dir){
-    var T = THEMES[dir] || THEMES.neu;
-    $('stripe').style.background   = T.stripe;
-    $('ibox').style.background     = T.ibg;
-    $('isvg').innerHTML            = T.svg;
-    $('vnum').style.color          = T.vclr;
-    $('bfill').style.background    = T.bar;
+  /* ── theme ── */
+  function theme(dir) {
+    var C = {
+      up:  { s:'#16a34a', ib:'#dcfce7', vc:'#16a34a', bc:'#16a34a',
+             svg:'<polyline points="1.5,9 5.5,1.5 9.5,9" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
+      down:{ s:'#dc2626', ib:'#fee2e2', vc:'#dc2626', bc:'#dc2626',
+             svg:'<polyline points="1.5,1.5 5.5,9 9.5,1.5" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' },
+      neu: { s:'#cbd5e1', ib:'#f1f5f9', vc:'#64748b', bc:'#cbd5e1',
+             svg:'<line x1="1.5" y1="5.5" x2="9.5" y2="5.5" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>' }
+    }[dir] || {};
+    $('stripe').style.background = C.s;
+    $('ibox').style.background   = C.ib;
+    $('isvg').innerHTML          = C.svg;
+    $('vnum').style.color        = C.vc;
+    $('bfill').style.background  = C.bc;
   }
 
-  /* ─── RESPONSIVE SCALE ─────────────────────── */
-  function applyScale(w){
-    var fs = Math.min(14, Math.max(10, Math.round((w / 260) * 13)));
-    appEl.style.fontSize = fs + 'px';
-    var hn = $('hero-num');
-    if(hn) hn.style.fontSize = Math.min(38, Math.max(20, Math.round((w / 260) * 34))) + 'px';
-  }
-  if(window.ResizeObserver){
-    new ResizeObserver(function(e){ applyScale(e[0].contentRect.width); }).observe(appEl);
-  }
-  window.addEventListener('resize', function(){ applyScale(appEl.offsetWidth || 260); });
-
-  /* ─── DATA READING ─────────────────────────────
-     CONFIRMED WORKING from debug session:
-     • getSummaryDataReaderAsync with ignoreSelection:true
-     • pg.columns[idx].fieldName  →  row key
-     • row[fieldName].nativeValue →  raw number
-     • enc[id].name               →  fieldName to look up in row            */
-  async function getData(ws){
+  /* ── EXACT Neon Donut data pattern ── */
+  function getSummaryData(ws) {
     var rows = [];
-    var rdr  = await ws.getSummaryDataReaderAsync(undefined, { ignoreSelection: true });
-    for(var i = 0; i < rdr.pageCount; i++){
-      var pg = await rdr.getPageAsync(i);
-      pg.data.forEach(function(r){
-        var row = {};
-        pg.columns.forEach(function(col, idx){ row[col.fieldName] = r[idx]; });
-        rows.push(row);
+    return ws.getSummaryDataReaderAsync(undefined, { ignoreSelection: true })
+      .then(function (reader) {
+        var chain = Promise.resolve();
+        for (var i = 0; i < reader.pageCount; i++) {
+          (function (pageNum) {
+            chain = chain.then(function () {
+              return reader.getPageAsync(pageNum).then(function (page) {
+                page.data.forEach(function (r) {
+                  var row = {};
+                  page.columns.forEach(function (col, idx) {
+                    row[col.fieldName] = r[idx];
+                  });
+                  rows.push(row);
+                });
+              });
+            });
+          })(i);
+        }
+        return chain.then(function () {
+          return reader.releaseAsync().then(function () { return rows; });
+        });
       });
-    }
-    await rdr.releaseAsync();
-    return rows;
   }
 
-  async function getEnc(ws){
-    var spec  = await ws.getVisualSpecificationAsync();
-    var map   = {};
-    if(spec.activeMarksSpecificationIndex < 0) return map;
-    spec.marksSpecifications[spec.activeMarksSpecificationIndex]
-        .encodings.forEach(function(e){ map[e.id] = e.field; });
-    return map;
+  /* ── EXACT Neon Donut encoding pattern ── */
+  function getEncodings(ws) {
+    return ws.getVisualSpecificationAsync().then(function (spec) {
+      var map = {};
+      if (spec.activeMarksSpecificationIndex < 0) return map;
+      var marks = spec.marksSpecifications[spec.activeMarksSpecificationIndex];
+      marks.encodings.forEach(function (e) { map[e.id] = e.field; });
+      return map;
+    });
   }
 
-  /* ─── RENDER ───────────────────────────────── */
-  function render(data, enc){
-    /* need actual encoding + at least one data row */
-    if(!enc.actual || !data || !data.length){ showPh(); return; }
-
-    var row = data[0];
-
-    /* Read a DataValue using the confirmed pattern */
-    function dv(encId){
-      if(!enc[encId]) return null;
-      return row[enc[encId].name] || null;         /* key = enc[id].name e.g. "SUM(balance)" */
+  /* ── render ── */
+  function render(data, encodings) {
+    /* guard: need actual field and data */
+    if (!encodings.actual || !data.length) {
+      $('ph').style.display  = '';
+      $('card').style.display = 'none';
+      return;
     }
-    function num(encId){
-      var d = dv(encId);
-      if(!d) return null;
-      /* nativeValue confirmed to hold the raw number */
-      var raw = (d.nativeValue !== undefined && d.nativeValue !== null)
-                ? d.nativeValue : d.value;
-      var n = parseFloat(raw);
+
+    /* read values using confirmed field name pattern */
+    function val(encId) {
+      if (!encodings[encId]) return null;
+      var dv = data[0][encodings[encId].name];
+      if (!dv) return null;
+      var n = parseFloat(dv.nativeValue !== undefined ? dv.nativeValue : dv.value);
       return isNaN(n) ? null : n;
     }
 
-    var actualN = num('actual');
-    var deltaN  = num('delta');
+    var actualN = val('actual');
+    var deltaN  = val('delta');
 
-    /* actual is required */
-    if(actualN === null){ showPh(); return; }
-    showCard();
+    if (actualN === null) {
+      $('ph').style.display  = '';
+      $('card').style.display = 'none';
+      return;
+    }
 
-    /* ── label: prettified actual field name ── */
-    $('lbl-slot').textContent = pretty(enc.actual.name);
+    /* show card */
+    $('ph').style.display   = 'none';
+    $('card').style.display = '';
 
-    /* ── hero ── */
-    $('hero-num').textContent = toBn(actualN);
+    /* label from field name */
+    $('lbl').textContent = pretty(encodings.actual.name);
 
-    /* ── direction ── */
-    var dir = deltaN === null ? 'neu'
-            : deltaN  >  0   ? 'up'
-            : deltaN  <  0   ? 'down'
-            :                  'neu';
-    applyTheme(dir);
+    /* hero */
+    $('hnum').textContent = toBn(actualN);
 
-    /* ── variance row ── */
-    if(deltaN !== null){
-      var sb  = signedBn(deltaN);
-      var pct = toPct(deltaN, actualN);
+    /* direction */
+    var dir = deltaN === null ? 'neu' : deltaN > 0 ? 'up' : deltaN < 0 ? 'down' : 'neu';
+    theme(dir);
 
-      /* variance number + Bn unit */
-      $('vnum').innerHTML = sb +
-        '<span class="vunit" style="font-size:10px;font-weight:400;opacity:.6;margin-left:1px">Bn</span>';
-
-      /* mini bar width: proportion of delta to actual, scaled for visibility */
-      var barW = Math.min(100, Math.max(2, Math.round(Math.abs(deltaN / actualN) * 100 * 20)));
-      $('bfill').style.width = barW + '%';
-
-      /* bar footer */
+    /* variance */
+    if (deltaN !== null) {
+      var sb  = signBn(deltaN);
+      var pct = pctOf(deltaN, actualN);
+      $('vnum').innerHTML = sb + '<span class="vunit">Bn</span>';
+      var bw = Math.min(100, Math.max(2, Math.round(Math.abs(deltaN / actualN) * 2000)));
+      $('bfill').style.width  = bw + '%';
       $('bleft').textContent  = 'Δ ' + sb + ' Bn';
-      $('bright').textContent = pct !== null
-        ? (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%'
-        : '—';
+      $('bright').textContent = pct !== null ? (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%' : '—';
     } else {
       $('vnum').textContent   = 'No delta';
       $('bfill').style.width  = '0%';
       $('bleft').textContent  = 'Drop Delta field';
       $('bright').textContent = '—';
     }
-
-    applyScale(appEl.offsetWidth || 260);
   }
 
-  /* ─── INIT ─────────────────────────────────── */
-  window.onload = tableau.extensions.initializeAsync().then(function(){
-    var ws = tableau.extensions.worksheetContent.worksheet;
+  /* ── INIT — exact Neon Donut pattern ── */
+  window.onload = tableau.extensions.initializeAsync().then(function () {
+    var worksheet = tableau.extensions.worksheetContent.worksheet;
 
-    async function update(){
-      try{
-        var data = await getData(ws);
-        var enc  = await getEnc(ws);
-        render(data, enc);
-      } catch(e){
-        showErr(String(e));
-        console.error('TreasuryKPI error:', e);
-      }
+    function update() {
+      Promise.all([
+        getSummaryData(worksheet),
+        getEncodings(worksheet)
+      ]).then(function (results) {
+        render(results[0], results[1]);
+      }).catch(function (err) {
+        console.error('KPI Card error:', err);
+      });
     }
 
-    ws.addEventListener(tableau.TableauEventType.SummaryDataChanged, update);
+    worksheet.addEventListener(tableau.TableauEventType.SummaryDataChanged, update);
     update();
-
-  }, function(e){ showErr('Init failed: ' + String(e)); });
+  });
 
 })();
 </script>
