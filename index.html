@@ -143,11 +143,14 @@ html,body{
     return s+(abs>=1e6?abs/1e9:abs).toFixed(2);
   }
   function pctOf(d,a){
-    /* delta as % of (actual - delta) = previous day value */
+    /* Convert both to Bn first so they are on the same scale,
+       then pct = deltaBn / (actualBn - deltaBn) * 100          */
     if(!a||!d||a===0) return null;
-    var prev=a-d;
-    if(prev===0||Math.abs(prev)<1) return null;
-    return (d/Math.abs(prev))*100;
+    var aBn = Math.abs(a)>=1e6 ? a/1e9 : a;
+    var dBn = Math.abs(d)>=1e6 ? d/1e9 : d;
+    var prev = aBn - dBn;
+    if(Math.abs(prev)<0.0001) return null;
+    return (dBn/Math.abs(prev))*100;
   }
   function pretty(name){
     return name
@@ -203,18 +206,20 @@ html,body{
   function countUp(target){
     var el=$('hnum');
     var abs=Math.abs(target);
-    var isBn=abs>=1e6;
-    var end=isBn?abs/1e9:abs;
+    /* Convert to Bn display value */
+    var end=abs>=1e6?abs/1e9:abs;
     var sign=target<0?'-':'';
-    var duration=700, steps=40, step=0;
-    var start=parseFloat(el.textContent)||0;
-    /* if starting from — or same value, skip animation */
-    if(isNaN(start)||start===end){ el.textContent=sign+end.toFixed(2); return; }
+    var duration=800, steps=50, step=0;
+    /* start from current displayed value or 0 */
+    var startTxt=el.textContent.replace(/[^0-9.]/g,'');
+    var start=parseFloat(startTxt)||0;
+    if(start===end){ el.textContent=sign+end.toFixed(2); return; }
     clearInterval(el._timer);
     el._timer=setInterval(function(){
       step++;
       var t=step/steps;
-      t=t<1?t*(2-t):1; /* ease out quad */
+      /* ease out cubic */
+      t=1-Math.pow(1-t,3);
       var cur=start+(end-start)*t;
       el.textContent=sign+cur.toFixed(2);
       if(step>=steps){ clearInterval(el._timer); el.textContent=sign+end.toFixed(2); }
